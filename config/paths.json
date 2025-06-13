@@ -1,5 +1,5 @@
 {
-    "bank_statement": "data/bank_statements/mutov870660667_01022025-28022025.pdf",
-    "clean_transactions": "data/clean_transactions/test1.csv",
-    "categorized_transactions": "data/categorized_transactions/test1.csv"
+    "bank_statement": "data/bank_statements/<name>.pdf",
+    "clean_transactions": "data/clean_transactions/<name>.csv",
+    "categorized_transactions": "data/categorized_transactions/<name>.csv"
 }

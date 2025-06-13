@@ -43,8 +43,11 @@ poetry install
 1. Ensure your configuration files are set up in the config directory
     - Categories and keywork defined by you
     - paths
-2. Place your bank statements in the bank_statements directory
-3. Run the application using:
+2. **Prepare your bank statements:**  
+   The PDF files you provide as input must have the following header row:  
+   `["Date", "Description", "Debit", "Credit"]`
+3. Place your bank statements in the bank_statements directory
+4. Run the application using:
 
 ```bash
 python caterminator/main.py

@@ -1,77 +1,44 @@
 {
     "Housing": {
-        "keywords": ["obvion", "Loodgieters", "Geld & Woning Oss/Oranjehuysen"],
         "type": "debit"
     },
     "Insurances": {
-        "keywords": ["Dazure", "Rheinland Versicherungs Ag", "DAZURE", "Basic Package 3,70", "ABN AMRO Bank N.V. CreditCard 1,16"],
         "type": "debit"
     },
     "Groceries": {
-        "keywords": ["supermarket", "grocery", "albert heijn", "natuurwinkel", "coop", "lidl", "jumbo",
-         "plus", "ekoplaza", "van nature", "etos", "kruidvat", "action", "normal", "Prozis", "ERA Delicatessen", "De Kaaskoerier"],
         "type": "debit"
     },
     "Restaurants": {
-        "keywords": ["restaurant", "glovo", "uber eats", "deliveroo", "food delivery", "thuisbezorgd", "falafel",
-         "pizza", "sushi", "kebab", "food", "oerfriet", "pokebowls", "MAM Street Food", "fresca", "Vis", "Food&i B.V",
-          "KFC", "desem Nijmegen", "Lobby Nijmegen"],
         "type": "debit"
     },
     "Coffe & Snacks": {
-        "keywords": ["coffee", "snack", "bakery", "cafe", "tea", "AH to go", "kiosk", "bck", "ALVIN'S", "EL & N",
-         "Wakuli", "STRIK Zieke", "MADAQ"],
         "type": "debit"
     },
     "Utilities": {
-        "keywords": ["Kemkens", "vitens", "VITENS"],
         "type": "debit"
     },
     "Entertainment": {
-        "keywords": ["disney", "netflix", "spotify", "Ol Round BV"],
         "type": "debit"
     },
     "Sport & Fitness": {
-        "keywords": ["fitness", "gym", "sports", "yoga", "swimming", "running", "Freyheyt"],
         "type": "debit"
     },
     "Health Insurance": {
-        "keywords": ["enzis Zorgverzekeraar NV3128240Relatienummer ING BNL2A10214232618"],
         "type": "debit"
     },
     "Eye care": {
-        "keywords": ["opticien", "optical", "eye care", "glasses"],
         "type": "debit"
     },
     "Shopping": {
-        "keywords": ["amazon", "bol.com", "douglas", "coolblue", "wehkamp", "zara", "h&m",
-         "BCK*Decathlon Nijmegen", "PHONE2PHONE", "Atelier HaarLA", "HEMA", "IKEA",
-          "Baby-Dump BV Omschrijving", "Scapino Nijmegen"],
         "type": "debit"
     },
     "Transport": {
-        "keywords": ["swapfiets", "kiosk", "NS e-Tickets", "TINQ"],
         "type": "debit"
     },
     "Savings": {
-        "keywords": ["EPA Overboeking IBAN: BIC: Naam: Emergenze",
-         "EPA Overboeking IBAN: BIC: Naam: Eleia", "EPA Overboeking IBAN: BIC: Naam: Spese Future"],
-        "type": "debit"
-    },
-    "Transfer to credit cards": {
-        "keywords": ["Int Card Services", "betreffende uw creditcard ICS-klantnummer"],
         "type": "debit"
     },
     "Salary": {
-        "keywords": ["BANKSalarisrekeningNOTPROV"],
-        "type": "credit"
-    },
-    "Transfer in": {
-        "keywords": ["it does not contain BANKSalarisrekeningNOTPROV", "SEPA NL13ABNA050641734 4AAB INZ TIKKIETikkie ID"],
-        "type": "credit"
-    },
-    "Child benefit": {
-        "keywords": ["Sociale VerzekeringsbankKINDERBIJSLAG"],
         "type": "credit"
     }
 }

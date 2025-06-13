@@ -1,44 +1,58 @@
 {
     "Housing": {
+        "keywords": [],
         "type": "debit"
     },
     "Insurances": {
+        "keywords": [],
         "type": "debit"
     },
     "Groceries": {
+        "keywords": [],
         "type": "debit"
     },
     "Restaurants": {
+        "keywords": [],
         "type": "debit"
     },
     "Coffe & Snacks": {
+        "keywords": [],
         "type": "debit"
     },
     "Utilities": {
+        "keywords": [],
         "type": "debit"
     },
     "Entertainment": {
+        "keywords": [],
         "type": "debit"
     },
     "Sport & Fitness": {
+        "keywords": [],
         "type": "debit"
     },
     "Health Insurance": {
+        "keywords": [],
         "type": "debit"
     },
     "Eye care": {
+        "keywords": [],
         "type": "debit"
     },
     "Shopping": {
+        "keywords": [],
         "type": "debit"
     },
     "Transport": {
+        "keywords": [],
         "type": "debit"
     },
     "Savings": {
+        "keywords": [],
         "type": "debit"
     },
     "Salary": {
+        "keywords": [],
         "type": "credit"
     }
 }

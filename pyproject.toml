@@ -1,0 +1,26 @@
+[project]
+name = "caterminator"
+version = "0.1.0"
+description = "This small application categorizes financial transactions using GenAI model and LM studio"
+authors = [
+    {name = "Francesco Lauria",email = "francesco.lauria@outlook.it"}
+]
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "pdfplumber (>=0.11.7,<0.12.0)",
+    "lmstudio (>=1.3.1,<2.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+deptry = "^0.23.0"
+pytest = "^8.4.0"
+
+[tool.deptry.per_rule_ignores]
+DEP001 = ["utils","functions"]

@@ -32,11 +32,11 @@ if __name__ == "__main__":
     logger.info("Running parser to extract transactions...")
     extract_transactions_to_csv(bank_statement, clean_transactions)
 
-    logger.info("Running categorizer to assign categories...")
-    run_categorizer(
-        clean_transactions, categorized_transactions, confidence_threshold=99
-    )
+    # logger.info("Running categorizer to assign categories...")
+    # run_categorizer(
+    #     clean_transactions, categorized_transactions, confidence_threshold=99
+    # )
 
-    logger.info(
-        f"Processing pipeline complete. Final results saved to {categorized_transactions}"
-    )
+    # logger.info(
+    #     f"Processing pipeline complete. Final results saved to {categorized_transactions}"
+    # )

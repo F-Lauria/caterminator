@@ -32,13 +32,15 @@ logs/
 # Local configuration
 .env
 
-#github
+# github
 .github/*
 
-# Ignore everything in data and subfolders
+# hide personal data
 /data/*
 /data/**
-
-# But keep the data folder and all subfolders
 !/data/
 !/data/**/
+!/data/**/.gitkeep
+
+# macOS specific files
+**/.DS_Store

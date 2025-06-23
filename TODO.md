@@ -4,5 +4,5 @@
 - [x] add deptry
 - [x] add poetry
 - [x] add gitignore
-- [ ] update the application to accept multiple files in
-- [ ] update tests
+- [x] update the application to accept multiple files in
+- [ ] update tests for hash and multiple files in

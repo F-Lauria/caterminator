@@ -29,3 +29,89 @@ def mock_pdf_content():
     mock_pdf.__exit__ = Mock(return_value=None)
 
     return mock_pdf
+
+
+@pytest.fixture
+def mock_pdf_content_ing():
+    class MockPage:
+        def extract_tables(self):
+            # Return a list of tables, each table is a list of rows
+            return [
+                [
+                    [
+                        "Datum",
+                        "Naam / Omschrijving",
+                        "Rekening",
+                        "Tegenrekening",
+                        "Code",
+                        "Af Bij",
+                        "Bedrag (EUR)",
+                        "MutatieSoort",
+                        "Mededelingen",
+                    ],
+                    [
+                        "01-02-2023",
+                        "Albert Heijn",
+                        "NL12INGB0001234567",
+                        "NL34RABO0123456789",
+                        "GM",
+                        "Af",
+                        "12,34",
+                        "PIN",
+                        "",
+                    ],
+                    [
+                        "02-02-2023",
+                        "Salaris",
+                        "NL12INGB0001234567",
+                        "NL56SNSB0123456789",
+                        "GM",
+                        "Bij",
+                        "1500,00",
+                        "STORT",
+                        "",
+                    ],
+                ]
+            ]
+
+        def extract_table(self):
+            # For compatibility, return the first table
+            return self.extract_tables()[0]
+
+    class MockPDF:
+        pages = [MockPage()]
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            pass
+
+    return MockPDF()
+
+
+@pytest.fixture
+def mock_pdf_content_ing_text():
+    class MockPage:
+        def extract_tables(self):
+            return []  # No tables found
+
+        def extract_text(self):
+            return (
+                "Statement Zakelijke Rekening\n"
+                "Date Name / Description / Notification Type Amount\n"
+                "01/02/2023 Albert Heijn groceries - 12,34\n"
+                "02/02/2023 Salaris betaling + 1500,00\n"
+                "03/02/2023 Coffee Shop - 3,50\n"
+            )
+
+    class MockPDF:
+        pages = [MockPage()]
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            pass
+
+    return MockPDF()

@@ -3,6 +3,7 @@ import csv
 import re
 import logging
 import os
+import hashlib
 
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
 logger = logging.getLogger("transaction_categorizer")
@@ -211,73 +212,78 @@ def parse_ing_text_lines(text):
     return transactions
 
 
-def extract_transactions_to_csv(pdf_path, csv_path):
+def compute_row_hash(row):
     """
-    Extracts transactions from a PDF file and writes them to a CSV file.
+    Computes a SHA256 hash for a transaction row (excluding the hash column itself).
+    """
+    row_str = "|".join(str(x) for x in row)
+    return hashlib.sha256(row_str.encode("utf-8")).hexdigest()
 
-    :param pdf_path: The path to the input PDF file.
-    :type pdf_path: str
-    :param csv_path: The path to the output CSV file.
-    :type csv_path: str
-    :return: None
-    :rtype: None
+
+def extract_transactions_to_csv(pdf_paths, csv_path):
+    """
+    Extracts transactions from multiple PDF files and writes them to a single CSV file,
+    appending only new transactions based on a hash column.
     """
     transactions = []
-    header_found = False
-    bank_type = None
+    header = ["Date", "Description", "Debit", "Credit", "Bank", "Hash"]
 
-    with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
-            tables = page.extract_tables()
-            if not tables or all(len(table) == 0 for table in tables):
-                text = page.extract_text()
-                print(text)
-                if text:
-                    ing_rows = parse_ing_text_lines(text)
-                    if ing_rows:
-                        if not transactions:
-                            transactions.append(
-                                ["Date", "Description", "Debit", "Credit", "Bank"]
-                            )
-                        transactions.extend(ing_rows)
-                continue
-            for table in tables:
-                print(f"Processing table with {len(table)} rows")
-                for row in table:
-                    row = [cell.strip() if cell else "" for cell in row]
-
-                    # Detect header and bank type
-                    if not header_found:
-                        if abn_is_header_row(row, header_found):
-                            transactions.append(
-                                ["Date", "Description", "Debit", "Credit", "Bank"]
-                            )
-                            header_found = True
-                            bank_type = "ABN"
-                            continue
-
-                    if header_found:
-                        if bank_type == "ABN":
-                            if abn_should_skip_row(row):
+    for pdf_path in pdf_paths:
+        header_found = False
+        bank_type = None
+        with pdfplumber.open(pdf_path) as pdf:
+            for page in pdf.pages:
+                tables = page.extract_tables()
+                if not tables or all(len(table) == 0 for table in tables):
+                    text = page.extract_text()
+                    if text:
+                        ing_rows = parse_ing_text_lines(text)
+                        if ing_rows:
+                            for row in ing_rows:
+                                row_hash = compute_row_hash(row)
+                                transactions.append(row + [row_hash])
+                    continue
+                for table in tables:
+                    for row in table:
+                        row = [cell.strip() if cell else "" for cell in row]
+                        if not header_found:
+                            if abn_is_header_row(row, header_found):
+                                header_found = True
+                                bank_type = "ABN"
                                 continue
-                            if abn_is_transaction_row(row):
-                                date = row[1]
-                                description = clean_description(row[2])
-                                debit = clean_amount(row[4]) if row[4] else "0"
-                                credit = clean_amount(row[5]) if row[5] else "0"
-                                transactions.append(
-                                    [date, description, debit, credit, "ABN"]
-                                )
+                        if header_found:
+                            if bank_type == "ABN":
+                                if abn_should_skip_row(row):
+                                    continue
+                                if abn_is_transaction_row(row):
+                                    date = row[1]
+                                    description = clean_description(row[2])
+                                    debit = clean_amount(row[4]) if row[4] else "0"
+                                    credit = clean_amount(row[5]) if row[5] else "0"
+                                    tx_row = [date, description, debit, credit, "ABN"]
+                                    row_hash = compute_row_hash(tx_row)
+                                    transactions.append(tx_row + [row_hash])
 
-    # Write or append to CSV
+    # Read existing hashes if file exists
+    existing_hashes = set()
     file_exists = os.path.isfile(csv_path)
-    write_header = not file_exists or os.stat(csv_path).st_size == 0
+    if file_exists:
+        with open(csv_path, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if "Hash" in row:
+                    existing_hashes.add(row["Hash"])
 
+    # Write header if new file, otherwise append only new rows
+    write_header = not file_exists
     with open(csv_path, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        for i, row in enumerate(transactions):
-            if i == 0 and not write_header:
-                continue  # Skip header if already present
-            writer.writerow(row)
+        if write_header:
+            writer.writerow(header)
+        new_rows = 0
+        for row in transactions:
+            if row[-1] not in existing_hashes:
+                writer.writerow(row)
+                new_rows += 1
 
-    logger.info(f"Extracted {len(transactions) - 1} transactions to {csv_path}")
+    logger.info(f"Appended {new_rows} new transactions to {csv_path}")

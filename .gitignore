@@ -31,3 +31,14 @@ logs/
 
 # Local configuration
 .env
+
+#github
+.github/*
+
+# Ignore everything in data and subfolders
+/data/*
+/data/**
+
+# But keep the data folder and all subfolders
+!/data/
+!/data/**/

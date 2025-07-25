@@ -40,7 +40,7 @@ def build_prompt(description, amount, tx_type, categories, confidence_threshold)
         prompt += f"- {cat} (type: {info['type']}): {', '.join(info['keywords']) if info['keywords'] else 'no specific keywords'}\n"
     prompt += (
         "\nWhen assigning a category, always consider if the transaction type (debit or credit) matches the typical type for the category. "
-        "For example, do not assign a debit category to a credit transaction and vice versa, unless you are very confident.\n"
+        "For example, do not assign a debit category to a credit transaction and vice versa.\n"
         f"If you are at least {confidence_threshold}% sure of the category, output only the category name. "
         "If you are less confident, output: to categorize.\n"
         "If the description does not contain any of the keywords, but you are still at least "

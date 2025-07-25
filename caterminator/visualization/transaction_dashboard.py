@@ -6,6 +6,13 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import os
+import sys
+
+# Set up project path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 # Initialize the Dash app
 app = dash.Dash(__name__, title="Personal Finance Dashboard")
@@ -14,9 +21,9 @@ app = dash.Dash(__name__, title="Personal Finance Dashboard")
 # Load and prepare data
 def load_data():
     df = pd.read_csv(
-        "/Users/francescolauria/Documents/repos/caterminator/data/categorized_transactions/mistralai.csv"
+        os.path.join(PROJECT_ROOT, "data/categorized_transactions/mistralai.csv")
     )
-    df["Date"] = pd.to_datetime(df["Date"], format="%d-%m-%Y")
+    df["Date"] = pd.to_datetime(df["Date"], format("%d-%m-%Y"))
     df["Month"] = df["Date"].dt.strftime("%Y-%m")
     df["Amount"] = np.where(
         df["Type"] == "debit", -df["Debit"].astype(float), df["Credit"].astype(float)

@@ -5,6 +5,12 @@ import numpy as np
 from datetime import datetime
 import matplotlib.dates as mdates
 import os
+import sys
+
+# Set up project path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 # Set the style for all visualizations
 plt.style.use("ggplot")
@@ -287,11 +293,13 @@ def create_essential_vs_nonessential_comparison(df, output_dir):
 
 def main():
     # Create output directory if it doesn't exist
-    output_dir = "/Users/francescolauria/Documents/repos/caterminator/docs/plots"
+    output_dir = os.path.join(PROJECT_ROOT, "docs/plots")
     os.makedirs(output_dir, exist_ok=True)
 
     # Load data from CSV
-    file_path = "/Users/francescolauria/Documents/repos/caterminator/data/categorized_transactions/mistralai.csv"
+    file_path = os.path.join(
+        PROJECT_ROOT, "data/categorized_transactions/mistralai.csv"
+    )
     transactions = load_transaction_data(file_path)
 
     # Generate all plots

@@ -1,5 +1,8 @@
 {
-    "bank_statement": "data/bank_statements/<name>.pdf",
+    "bank_statement": [
+        "data/bank_statements/<name1>.pdf",
+        "data/bank_statements/<name2>.pdf"
+    ],
     "clean_transactions": "data/clean_transactions/<name>.csv",
     "categorized_transactions": "data/categorized_transactions/<name>.csv"
 }

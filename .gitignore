@@ -31,3 +31,16 @@ logs/
 
 # Local configuration
 .env
+
+# github
+.github/*
+
+# hide personal data
+/data/*
+/data/**
+!/data/
+!/data/**/
+!/data/**/.gitkeep
+
+# macOS specific files
+**/.DS_Store

@@ -2,17 +2,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-from datetime import datetime
-import matplotlib.dates as mdates
 import os
 import sys
+
+from caterminator.utils.logging_config import setup_visualization_logger
 
 # Set up project path
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from caterminator.utils.logging_config import setup_visualization_logger
 
 # Set the style for all visualizations
 plt.style.use("ggplot")

@@ -41,6 +41,12 @@ logs/
 !/data/
 !/data/**/
 !/data/**/.gitkeep
+# Ignore all files in docs/plots/
+docs/plots/*
+# But do not ignore the folder itself or .gitkeep files
+!docs/plots/
+!docs/plots/.gitkeep
+
 
 # macOS specific files
 **/.DS_Store

@@ -3,12 +3,14 @@ import os
 from logging.handlers import RotatingFileHandler
 
 
-def setup_logger(log_file=None):
+def setup_logger(log_file=None, logger_name="transaction_categorizer"):
     """
     Configure and set up logging for the application.
 
     :param log_file: Path to the log file (absolute or relative)
     :type log_file: str
+    :param logger_name: Name for the logger
+    :type logger_name: str
     :return: Configured logger
     :rtype: logging.Logger
     """
@@ -20,7 +22,7 @@ def setup_logger(log_file=None):
     # Ensure the logs directory exists
     os.makedirs(os.path.dirname(log_file), exist_ok=True)
 
-    logger = logging.getLogger("transaction_categorizer")
+    logger = logging.getLogger(logger_name)
 
     # Clear any existing handlers
     if logger.hasHandlers():
@@ -46,3 +48,15 @@ def setup_logger(log_file=None):
     logger.addHandler(console_handler)
 
     return logger
+
+
+def setup_visualization_logger(log_file=None):
+    """
+    Set up a logger specifically for visualization functions.
+
+    :param log_file: Path to the log file (uses same default as main logger)
+    :type log_file: str
+    :return: Configured visualization logger
+    :rtype: logging.Logger
+    """
+    return setup_logger(log_file, "caterminator.visualization")

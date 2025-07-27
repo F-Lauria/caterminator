@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Caterminator is a financial transaction categorization tool that leverages the LM Studio SDK. It automatically classifies bank transactions into predefined categories using generative AI technology through LM Studio, providing a structured approach to financial data organization.
+Caterminator is a comprehensive financial analysis tool that combines transaction categorization with data visualization. It leverages the LM Studio SDK to automatically classify bank transactions into predefined categories using generative AI technology, and then generates insightful visualizations to help users understand their financial patterns and spending habits.
 
 The tool currently supports **ABN AMRO** and **ING** bank statement formats, each using specialized parsing approaches optimized for their respective PDF structures.
 
@@ -15,6 +15,8 @@ caterminator/
 │   ├── functions/            # Core functionality modules
 │   │   ├── parser.py         # Bank statement parsing (ABN & ING)
 │   │   └── categorizer.py    # AI-powered transaction categorization
+│   ├── visualization/        # Financial data visualization
+│   │   └── finance_analysis.py # Plot generation and analysis
 │   └── utils/                # Utility modules
 │       └── logging_config.py # Logging configuration
 ├── config/                   # Configuration files
@@ -24,6 +26,8 @@ caterminator/
 │   ├── bank_statements/      # Raw bank statement PDFs
 │   ├── categorized_transactions/ # Final categorized transactions
 │   └── clean_transactions/   # Intermediate cleaned transaction data
+├── docs/                     # Documentation and generated content
+│   └── plots/                # Generated visualization plots
 ├── tests/                    # Test suite
 │   ├── fixtures/             # Test data and sample files
 │   ├── conftest.py           # Test configuration
@@ -46,6 +50,18 @@ caterminator/
 - **AI-Powered Categorization**: Uses LM Studio with configurable confidence thresholds
 - **Transaction Cleaning**: Removes bank codes, IBANs, BICs, and other unnecessary details
 - **Flexible Configuration**: Customizable categories and file paths via JSON configuration
+
+### Visualization Features
+After categorizing transactions, Caterminator automatically generates comprehensive financial analysis plots including:
+
+- **Monthly Expenses by Category**: Stacked bar charts showing spending patterns over time by category
+- **Bank Comparison**: Compare spending habits across different banks (ABN AMRO vs ING)
+- **Income vs Expenses**: Track monthly cash flow with income, expenses, and net flow trends
+- **Savings Trends**: Monitor savings patterns with both individual transactions and cumulative totals
+- **Essential vs Non-essential Spending**: Categorize expenses into essential (groceries, housing, utilities) and discretionary spending
+- **Category and Bank Analysis**: Detailed breakdown of spending by category across different bank accounts
+
+All plots are generated using matplotlib and seaborn, styled with a consistent color-blind friendly palette and saved as high-quality PNG images in the `docs/plots/` directory.
 
 ## Bank Processing Methods
 
@@ -70,8 +86,10 @@ Both processes output standardized CSV files with columns: `Date`, `Description`
 Before using Caterminator, ensure you have:
 1. **Python 3.10 or higher**
 2. **Poetry** for dependency management
-3. **LM Studio** installed and running with a loaded model
+3. **LM Studio** installed and running with a loaded model (for categorization)
 4. **Bank statement PDFs** in supported formats (ABN AMRO or ING)
+
+**Note**: Visualization features work independently of LM Studio and can be used with any properly formatted categorized transaction data.
 
 ## Installation
 
@@ -149,6 +167,30 @@ poetry install
    python caterminator/main.py
    ```
 
+### Generating Visualizations
+
+After processing and categorizing your transactions, you can generate financial analysis plots:
+
+1. **Ensure Categorized Data Exists**: Make sure you have run the main processing pipeline first
+2. **Run Visualization Module**:
+   ```bash
+   python caterminator/visualization/finance_analysis.py
+   ```
+
+The visualization module will:
+- Load your categorized transaction data
+- Generate multiple types of financial analysis plots
+- Save all plots as PNG images in `docs/plots/`
+- Display completion message with the output directory path
+
+**Generated Plot Types**:
+- `monthly_expenses_by_category.png` - Monthly spending breakdown by category
+- `bank_category_comparison.png` - Spending comparison across banks
+- `income_vs_expenses.png` - Monthly cash flow analysis
+- `savings_trends.png` - Savings patterns over time
+- `essential_vs_nonessential.png` - Essential vs discretionary spending
+- `monthly_expenses_by_category_and_bank.png` - Detailed category and bank analysis
+
 ### Processing Workflow
 
 The application follows this automated pipeline:
@@ -169,10 +211,17 @@ The application follows this automated pipeline:
    - Assigns categories based on description, amount, and transaction type
    - Saves final categorized results
 
+3. **Visualization Phase** (Optional):
+   - Loads categorized transaction data
+   - Generates comprehensive financial analysis plots
+   - Creates multiple chart types for different insights
+   - Saves all visualizations to `docs/plots/` directory
+
 ### Output Files
 
 - **Clean Transactions**: `data/clean_transactions/` - Parsed and cleaned transaction data
 - **Categorized Transactions**: `data/categorized_transactions/` - Final results with AI-assigned categories
+- **Visualization Plots**: `docs/plots/` - Generated financial analysis charts and graphs
 - **Logs**: Application logs are created in the `logs/` directory (created automatically)
 
 ### Notes

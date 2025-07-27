@@ -85,6 +85,35 @@ poetry install
 
 ### Configuration Setup
 1. **Configure Categories**: Edit `config/categories.json` to define your transaction categories and keywords
+
+   The categories configuration file defines how transactions should be automatically categorized by the AI model. Each category contains:
+   - **Keywords**: Words or phrases that help the model identify transactions belonging to this category
+   - **Type**: Either `"debit"` (money going out) or `"credit"` (money coming in)
+
+   Example configuration:
+   ```json
+   {
+       "Groceries": {
+           "keywords": ["supermarket", "grocery", "albert heijn", "jumbo", "lidl", "aldi"],
+           "type": "debit"
+       },
+       "Salary": {
+           "keywords": ["salary", "wage", "payroll", "employer name"],
+           "type": "credit"
+       },
+       "Restaurants": {
+           "keywords": ["restaurant", "cafe", "takeaway", "uber eats", "deliveroo"],
+           "type": "debit"
+       }
+   }
+   ```
+
+   **Tips for effective categorization**:
+   - Add specific merchant names, chain names, or transaction descriptions you commonly see
+   - Include both Dutch and English terms if applicable
+   - Use lowercase keywords for better matching
+   - The AI model uses these keywords along with transaction descriptions to make categorization decisions
+
 2. **Set File Paths**: Update `config/paths.json` with the paths to your bank statement files:
    ```json
    {

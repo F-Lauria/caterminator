@@ -171,27 +171,6 @@ def plot_savings_trends(df, output_dir):
     plt.close()
 
 
-def plot_top_merchants(df, output_dir, n=15):
-    """Plot top merchants by total spending"""
-    merchants = (
-        df[df["Type"] == "debit"]
-        .groupby("Description")["Amount"]
-        .sum()
-        .abs()
-        .sort_values(ascending=False)
-        .head(n)
-    )
-
-    plt.figure(figsize=(15, 8))
-    merchants.plot(kind="barh")
-    plt.title(f"Top {n} Merchants by Total Spending", fontsize=16)
-    plt.xlabel("Total Amount (€)", fontsize=14)
-    plt.ylabel("Merchant", fontsize=14)
-    plt.tight_layout()
-    plt.savefig(f"{output_dir}/top_merchants.png")
-    plt.close()
-
-
 def create_essential_vs_nonessential_comparison(df, output_dir):
     """Compare essential vs non-essential spending"""
     # Define essential categories
@@ -250,7 +229,6 @@ def main():
     plot_bank_comparison(transactions, output_dir)
     plot_income_vs_expenses(transactions, output_dir)
     plot_savings_trends(transactions, output_dir)
-    plot_top_merchants(transactions, output_dir)
     create_essential_vs_nonessential_comparison(transactions, output_dir)
 
     print(f"All plots have been generated and saved to {output_dir}")

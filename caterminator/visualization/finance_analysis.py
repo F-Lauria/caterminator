@@ -171,63 +171,6 @@ def plot_savings_trends(df, output_dir):
     plt.close()
 
 
-def plot_category_distribution_by_bank(df, output_dir):
-    """Create pie charts showing category distribution for each bank"""
-    banks = df["Bank"].unique()
-
-    fig, axes = plt.subplots(1, len(banks), figsize=(7 * len(banks), 7))
-    if len(banks) == 1:
-        axes = [axes]
-
-    for i, bank in enumerate(banks):
-        bank_data = df[(df["Bank"] == bank) & (df["Type"] == "debit")]
-        category_totals = bank_data.groupby("Category")["Amount"].sum().abs()
-
-        # Plot pie chart for this bank
-        axes[i].pie(
-            category_totals,
-            labels=category_totals.index,
-            autopct="%1.1f%%",
-            startangle=90,
-        )
-        axes[i].set_title(f"{bank} Expense Distribution")
-
-    plt.tight_layout()
-    plt.savefig(f"{output_dir}/category_distribution_by_bank.png")
-    plt.close()
-
-
-def plot_daily_spending_patterns(df, output_dir):
-    """Plot spending patterns by day of week"""
-    # Add day of week to the dataframe
-    expenses = df[df["Type"] == "debit"].copy()
-    expenses["DayOfWeek"] = expenses["Date"].dt.day_name()
-
-    # Order days correctly
-    day_order = [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-    ]
-    expenses["DayOfWeek"] = pd.Categorical(
-        expenses["DayOfWeek"], categories=day_order, ordered=True
-    )
-
-    # Plot
-    plt.figure(figsize=(14, 8))
-    sns.boxplot(x="DayOfWeek", y="Amount", data=expenses, showfliers=False)
-    plt.title("Daily Spending Patterns", fontsize=16)
-    plt.xlabel("Day of Week", fontsize=14)
-    plt.ylabel("Amount Spent (€)", fontsize=14)
-    plt.tight_layout()
-    plt.savefig(f"{output_dir}/daily_spending_patterns.png")
-    plt.close()
-
-
 def plot_top_merchants(df, output_dir, n=15):
     """Plot top merchants by total spending"""
     merchants = (
@@ -307,8 +250,6 @@ def main():
     plot_bank_comparison(transactions, output_dir)
     plot_income_vs_expenses(transactions, output_dir)
     plot_savings_trends(transactions, output_dir)
-    plot_category_distribution_by_bank(transactions, output_dir)
-    plot_daily_spending_patterns(transactions, output_dir)
     plot_top_merchants(transactions, output_dir)
     create_essential_vs_nonessential_comparison(transactions, output_dir)
 
